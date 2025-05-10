@@ -35,7 +35,7 @@ jobs:
   sonarcloud:
     name: SonarCloud Scan
     runs-on: ubuntu-latest
-    needs: build  # só roda após o job build
+    needs: build
 
     steps:
       - uses: actions/checkout@v4
@@ -54,8 +54,11 @@ jobs:
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
-        with:
-          organization: 'coelhos-gabi'
-          projectKey: 'angular-actions'
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=coelhos-gabi
+            -Dsonar.projectKey=angular-actions
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+
